@@ -503,8 +503,13 @@ public final class Scrabble extends java.applet.Applet implements ItemListener {
             if(base == null) {
                 File file = new File(dictname);
                 messageText.append("Loading dictionary: "+file.getAbsolutePath()+"\n");
-                is = new FileInputStream(file);
-                
+                if(file.exists()) {
+                    is = new FileInputStream(file);
+                } else {
+                    // fall back to bundled resource
+                    is = Scrabble.class.getClassLoader().getResourceAsStream(dictname);
+                }
+
             } else { //in an applet
                 File file = Support.findCachedFile(dictname);
                 if(file != null) {
@@ -543,8 +548,13 @@ public final class Scrabble extends java.applet.Applet implements ItemListener {
         URL base = getCodeBase();
         try {
             if(base == null) {
-                is = new FileInputStream(new File(dictname));
-                
+                File file = new File(dictname);
+                if(file.exists()) {
+                    is = new FileInputStream(file);
+                } else {
+                    is = Scrabble.class.getClassLoader().getResourceAsStream(dictname);
+                }
+
             } else { //in an applet
                 File file = Support.findCachedFile(dictname);
                 if(file != null) {

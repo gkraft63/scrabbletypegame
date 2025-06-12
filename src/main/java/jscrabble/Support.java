@@ -11,6 +11,7 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -169,21 +170,34 @@ public final class Support {
      * 
      */
     public static Image getImage(String name) {
-        java.net.URL url = Support.class.getResource(name);
-        if(url != null) {
-            Image image = Toolkit.getDefaultToolkit().getImage(url);
-            if(image != null) {
-                synchronized(tracker) {
-                    tracker.addImage(image, 0);
-                    try {
-                        tracker.waitForAll();
-                    } catch (InterruptedException e) {
-                    }
-                    tracker.removeImage(image);
-                }
-                return image;
+        // Ensure leading slash so the resource is resolved from the classpath
+        String resName = name.startsWith("/") ? name : "/" + name;
+
+        // Try reading via ImageIO using a stream - works even inside a JAR
+        try (InputStream is = Support.class.getResourceAsStream(resName)) {
+            if (is != null) {
+                return ImageIO.read(is);
             }
+        } catch (IOException ex) {
+            // fallback below
         }
+
+        // Fallback to Toolkit which can handle URLs outside of the classpath
+        java.net.URL url = Support.class.getResource(resName);
+        if (url != null) {
+            Image image = Toolkit.getDefaultToolkit().getImage(url);
+            synchronized (tracker) {
+                tracker.addImage(image, 0);
+                try {
+                    tracker.waitForAll();
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+                tracker.removeImage(image);
+            }
+            return image;
+        }
+
         return null;
     }
     
