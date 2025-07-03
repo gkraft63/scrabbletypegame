@@ -1,16 +1,9 @@
 package jscrabble.ui;
 
-import java.awt.*;
-import java.awt.event.*;
+import jscrabble.*;
 
-import jscrabble.Support;
-import jscrabble.GlobalCache;
-import jscrabble.Player;
-import jscrabble.Scrabble;
-import jscrabble.ScrabbleGame;
-import jscrabble.ScrabbleSeat;
-import jscrabble.Settings;
-import jscrabble.Util;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 
 
@@ -68,24 +61,24 @@ public class PlayerPanel extends Container {
         int src = (highlighted)? 33: 0;
         Component comp = null;
         g.drawImage(skin, alloc.x, alloc.y, alloc.x + 10, alloc.y + 10,
-                src+67, 1, src+77, 11, comp);
+                src+67, 1, src+77, 11, null);
         g.drawImage(skin, alloc.x + 10, alloc.y, alloc.x + alloc.width - 10, alloc.y + 10,
-                src+78, 1, src+88, 11, comp);
+                src+78, 1, src+88, 11, null);
         g.drawImage(skin, alloc.x + alloc.width - 10, alloc.y, alloc.x + alloc.width, alloc.y + 10,
-                src+89, 1, src+99, 11, comp);
+                src+89, 1, src+99, 11, null);
         g.drawImage(skin, alloc.x, alloc.y + 10, alloc.x + 10, alloc.y + alloc.height - 10,
-                src+67, 12, src+77, 22, comp);
+                src+67, 12, src+77, 22, null);
         g.drawImage(skin, alloc.x + 10, alloc.y + 10, alloc.x + alloc.width - 10, alloc.y + alloc.height - 10,
-                src+78, 12, src+88, 22, comp);
+                src+78, 12, src+88, 22, null);
         g.drawImage(skin, alloc.x + alloc.width - 10, alloc.y + 10, alloc.x + alloc.width, alloc.y + alloc.height - 10,
-                src+89, 12, src+99, 22, comp);
+                src+89, 12, src+99, 22, null);
         g.drawImage(skin, alloc.x, alloc.y + alloc.height - 10, alloc.x + 10, alloc.y + alloc.height,
-                src+67, 23, src+77, 33, comp);
+                src+67, 23, src+77, 33, null);
         g.drawImage(skin, alloc.x + 10, alloc.y + alloc.height - 10, alloc.x + alloc.width - 10, alloc.y + alloc.height,
-                src+78, 23, src+88, 33, comp);
+                src+78, 23, src+88, 33, null);
         g.drawImage(skin, alloc.x + alloc.width - 10, alloc.y + alloc.height - 10, alloc.x + alloc.width, alloc.y + alloc.height,
-                src+89, 23, src+99, 33, comp);
-        g.drawImage(seat.player.getIcon(), alloc.x + alloc.width/2 - 24, alloc.y + 10, comp);
+                src+89, 23, src+99, 33, null);
+        g.drawImage(seat.player.getIcon(), alloc.x + alloc.width/2 - 15, alloc.y + 10, null);
         
         String name = seat.player.getName();
         if(name != null) {
